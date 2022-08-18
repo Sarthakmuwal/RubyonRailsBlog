@@ -1,0 +1,25 @@
+<h1>Sign Up</h1>
+
+
+
+
+<%= form_with model: @user, url: signup_path do |form| %>
+ 
+  <p><%= form.text_field :name, placeholder: true, format: :html%></p>
+  <% @user.errors.full_messages_for(:name).each do |message| %>
+    <p><%= message %></p>
+  <% end %>
+
+  <p><%= form.date_field :dob, placeholder: true%></p>
+  <p><%= form.password_field :password, placeholder: true %></p>
+  <p><%= form.password_field :password_confirmation, placeholder: true %></p>
+   
+  <% @user.errors.full_messages_for(:password_confirmation).each do |message| %>
+    <p><%= message %></p>
+  <% end %>
+  <p><%= form.file_field :photo %></p>
+  <span><%= form.check_box :admin_user%></span>
+  Admin User?
+  <p><%= form.submit "Sign Up"%>
+<% end %>
+<%= link_to "Already have an account?", login_path %>
