@@ -1,0 +1,56 @@
+class ArticlesController < ApplicationController
+  before_action :authenticate_user
+  def index
+    @articles = Article.all
+  end
+  def show
+    @article = Article.find(params[:id])
+  end
+  
+  def new
+    @article = Article.new
+  end
+  def all_comments
+    @post = Post.find(params[:id])
+  end
+  def create
+    @article = Article.new(article_params)
+    @article.user_id = session[:user_id]
+    if @article.save
+      redirect_to articles_path
+    else
+      redirect_to articles_path, status: :unprocessable_entity
+    end
+  end
+
+  def edit
+    @article = Article.find(params[:id])
+  end
+
+  def update
+    @article = Article.find(params[:id])
+
+    if @article.update(article_params)
+      redirect_to articles_path
+    else
+      render :edit, status: :unprocessable_entity
+    end
+  end
+ 
+  def destroy
+    @article = Article.find(params[:id])
+    @article.destroy
+
+    redirect_to root_path, status: :see_other
+  end
+
+  private
+     def article_params
+       params.require(:article).permit(:title, :body)
+     end
+     def authenticate_user
+       if !Current.user
+          redirect_to login_path
+       end
+     end
+end

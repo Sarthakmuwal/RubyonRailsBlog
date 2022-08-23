@@ -1,0 +1,11 @@
+<div style="margin-left:0% ; margin-top:10%">
+<h1 style="margin-left:5% ;font-size:30px ; font-family:Arial; color: #f11212">LOGIN</h1>
+ <%= form_with url: "/login" do |form| %>
+   <p><%= form.text_field :name, placeholder: true  %></p>
+   <p><%= form.password_field :password, placeholder: true %></p>
+   <p style="margin-left:0%"><%= form.submit "Login"%></p>
+<% end %> 
+<%= link_to "Create an Account?", sign_up_path %>
+</div>
+
+

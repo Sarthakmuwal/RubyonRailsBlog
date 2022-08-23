@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+.collapsible {
+  cursor: pointer;
+  padding: 18px;
+  width: 100%;
+  border: none;
+  text-align: left;
+  outline: none;
+  font-size: 15px;
+}
+
+.content {
+  padding: 0 18px;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.2s ease-out;
+  background-color: #f1f1f1;
+}
+.newpost{
+  margin-left: 15%;
+  width:800px;
+  margin-bottom: 5%;
+  margin-top: 5%;
+}
+.post{
+  margin-bottom: 5%;
+}
+.ccontainer{
+ 
+  margin-top: 10px;
+}
+.submittag{margin-left:40%; color:blue}
+</style>
+</head>
+<body>
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet"/>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+
+<div class="newpost">
+<%= form_with scope: :article, url: articles_path , local:true do |form| %>
+
+  <div>
+    <%= form.text_area :body,rows: 10,class: "form-control"%><br>
+  </div>
+
+  <div class="submittag">
+    <%= form.submit "Create Post" %>
+  </div>
+<% end %>
+
+
+</div>
+<% @articles.each do |article| %>
+  <div class="post">
+  <section style="background-color: #eee;">
+    <div class="container my-5 py-5">
+      <div class="row d-flex justify-content-center">
+        <div class="col-md-12 col-lg-10 col-xl-8">
+          <div class="card">
+            <div class="card-body">
+              <div class="d-flex flex-start align-items-center">
+             
+              <%= image_tag "profile.png" , :style => "height: 50px;" %>
+               
+                <div>
+                  <h6 class="fw-bold text-primary mb-1"><%= article.user.name %></h6>
+                  <p class="text-muted small mb-0">
+                    Shared publicly - <%= time_ago_in_words(article.updated_at)%> ago
+                  </p>
+                </div>
+              </div>
+              <p style="font-size:30px"class="mt-3 mb-4 pb-2">
+                <%= article.body%>
+              </p>
+              <% if Current.user.id ==article.user_id %>
+              <div class="small d-flex justify-content-start">
+                <a href="/articles/<%= article.id %>/edit" class="d-flex align-items-center me-3">
+                  <i class="far fa-edit me-2"></i>
+                  <p class="mb-0">Edit Post</p>
+                </a>
+                <%= link_to  article_path(article), class: "d-flex align-items-center me-3",data: {
+                  turbo_method: :delete,
+                  turbo_confirm: "Are you sure?"
+                } do %>
+                  <i class="far fa-trash-alt me-2"></i>
+                  <p class="mb-0">Delete Post</p>
+                <% end %>
+              </div>
+              <% end %>
+              <div class="ccontainer">
+  <button class="collapsible">Show Comments</button>
+  <div class="content">
+  <%= render article.comments %> 
+  <h2>Add a comment:</h2>
+  <div id="new_comment">
+  <%= form_with model: [ article, article.comments.build ] do |form| %>
+      <p>
+        <%= form.text_area :body %>
+      </p>
+      <p>
+        <%= form.submit %>
+      </p>
+    <% end %>
+    </div>
+</div>
+
+  
+   
+  </div>
+            </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  
+<% end %> 
+<script>
+var coll = document.getElementsByClassName("collapsible");
+var i;
+
+for (i = 0; i < coll.length; i++) {
+  coll[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var content = this.nextElementSibling;
+    if (content.style.maxHeight){
+      content.style.maxHeight = null;
+    } else {
+      content.style.maxHeight = content.scrollHeight + "px";
+    } 
+  });
+}
+</script>
+
+</body>
+</html>

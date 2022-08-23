@@ -1,0 +1,51 @@
+
+
+<!DOCTYPE html>
+<html>
+  <head>
+  
+    <title>BLOGdemo</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+  
+    <%= stylesheet_link_tag "overall", "data-turbo-track": "reload" %>
+ 
+  </head>
+
+<nav class="navbar navbar-expand-lg bg-light">
+  <div class="container-fluid">
+  <% if Current.user %>
+    <a class="navbar-brand" href="/"style="margin-left:0% ;font-size:40px ; font-family:ui-sans-serif ; color: #f11212 " href="/" >BlogDemo </a>
+  <% else %>
+  <a style="margin-left:0% ;font-size:40px ; font-family:ui-sans-serif ; color: #f11212 " href="/" >BlogDemo </a>
+  <% end %>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+      <% if Current.user %>
+        <li style="margin-left:540px">
+          <a class="nav-link active"  href="/"><h1></h1></a>
+        </li>
+          <a class="nav-link active" style="margin-left:200px"><text_field>Welcome!</text_field>
+            <%= Current.user.name %>
+            <% if Current.user.admin_user %>
+            [Admin]
+            <% end %>
+          </a>
+          <% if Current.user.admin_user %>
+          <li>
+            <a class="nav-link active" aria-current="page" href="/users/">Profiles</a>
+          </li>
+          <% end %>
+          <li class="nav-link active" ><%= link_to "Logout", logout_path,data: {turbo_method: :delete}
+            %></li>
+        <% end %>
+      </ul>
+     
+    </div>
+  </div>
+</nav>
+

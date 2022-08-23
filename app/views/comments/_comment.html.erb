@@ -1,0 +1,20 @@
+
+<p>
+ <% if comment.user.photo.present? %>
+  <%=image_tag comment.user.photo_url(:thumb)%>
+<% else %>
+  <%= image_tag "profile.png" , :style => "height: 20px;" %>
+<% end %>
+  <%= comment.user.name %><br>
+ <div >
+  <%= comment.body %><br>
+  <% if Current.user.id == comment.user_id %>
+  <%= link_to "Delete Comment", [comment.article, comment], data: {
+                turbo_method: :delete,
+                turbo_confirm: "Are you sure?"
+              } , :style => "font-size: 12px;" %>
+  <% end %>
+</p>
+
+
+
