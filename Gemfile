@@ -77,4 +77,6 @@ end
 
 gem 'bootstrap', '~> 5.2.0'
 
+gem "byebug"
+
 gem 'jquery-rails'

@@ -1,0 +1,16 @@
+<h1>Events</h1>
+
+<% @events.each do |event| %>
+   <p><%= event.name %></p>
+   <p><%= event.description %></p>
+   <p><%= event.start_date %></p>
+   <p><%= event.end_date %></p>
+   
+   <%= form_with url: "/book" do |form| %>
+    <%= hidden_field_tag 'event_id', event.id %>
+     <%= form.submit "Register" %>
+   <% end %>
+   <hr>
+<% end %>
+
+<%= link_to "New Event", new_event_path %>
