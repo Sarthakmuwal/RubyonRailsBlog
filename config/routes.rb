@@ -20,7 +20,6 @@ Rails.application.routes.draw do
 
   resources :events
 
-  post "/book", to: "event#create"
 
   
 end
